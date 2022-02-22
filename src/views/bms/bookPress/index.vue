@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import {fetchList,deleteBookCate,updateShowStatus,updateNavStatus} from '@/api/bookCate'
+import {fetchList,deleteBookPress,updateShowStatus} from '@/api/bookPress'
 
 export default {
   name: "bookPressList",

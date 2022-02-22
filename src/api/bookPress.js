@@ -1,17 +1,16 @@
 import request from '@/utils/request'
 export function fetchList(cid,params) {
   return request({
-    url:'/bookPress/list/'+cid,
+    url:'/bookPress/list/',
     method:'get',
     params:params
   })
 }
 
-export function deleteBookPress(data) {
+export function deleteBookPress(id) {
   return request({
-    url:'/bookPress/delete',
-    method:'post',
-    data:data
+    url:'/bookPress/delete/'+id,
+    method:'delete'
   })
 }
 
@@ -26,7 +25,7 @@ export function createBookPress(data) {
 export function updateBookPress(id,data) {
   return request({
     url:'/bookPress/update/'+id,
-    method:'post',
+    method:'put',
     data:data
   })
 }
@@ -34,5 +33,13 @@ export function getBookPress(id) {
   return request({
     url:'/bookPress/'+id,
     method:'get'
+  })
+}
+
+export function updateShowStatus(data) {
+  return request({
+    url:'/bookPress/update/showStatus',
+    method:'put',
+    data:data
   })
 }

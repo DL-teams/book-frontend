@@ -4,19 +4,11 @@
              :rules="rules"
              ref="bookPressFrom"
              label-width="150px">
-      <el-form-item label="分类名称：" prop="name">
-        <el-input v-model="bookPress.name"></el-input>
+      <el-form-item label="出版社编码：" prop="code">
+        <el-input v-model="bookPress.code"></el-input>
       </el-form-item>
-      <el-form-item label="上级分类：">
-        <el-select v-model="bookPress.parentId"
-                   placeholder="请选择分类">
-          <el-option
-            v-for="item in selectBookPressList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
-        </el-select>
+      <el-form-item label="出版社名称：" prop="name">
+        <el-input v-model="bookPress.name"></el-input>
       </el-form-item>
       <el-form-item label="排序：">
         <el-input v-model="bookPress.sort"></el-input>
@@ -26,26 +18,6 @@
           <el-radio :label="1">是</el-radio>
           <el-radio :label="0">否</el-radio>
         </el-radio-group>
-      </el-form-item>
-      <!--      <el-form-item v-for="(filterBookAttr, index) in filterBookAttrList"-->
-      <!--                    :label="index | filterLabelFilter"-->
-      <!--                    :key="filterBookAttr.key"-->
-      <!--      >-->
-      <!--        <el-cascader-->
-      <!--          clearable-->
-      <!--          v-model="filterBookAttr.value"-->
-      <!--          :options="filterAttrs">-->
-      <!--        </el-cascader>-->
-      <!--        <el-button style="margin-left: 20px" @click.prevent="removeFilterAttr(filterBookAttr)">删除</el-button>-->
-      <!--      </el-form-item>-->
-      <!--      <el-form-item>-->
-      <!--        <el-button size="small" type="primary" @click="handleAddFilterAttr()">新增</el-button>-->
-      <!--      </el-form-item>-->
-      <el-form-item label="关键词：">
-        <el-input v-model="bookPress.keywords"></el-input>
-      </el-form-item>
-      <el-form-item label="分类描述：">
-        <el-input type="textarea" :autosize="true" v-model="bookPress.description"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('bookPressFrom')">提交</el-button>

@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const packageConfig = require('../package.json')
 
 exports.assetsPath = function (_path) {
-  const assetsSubDirectory = process.env.NODE_ENV === 'production'
+  const assetsSubDirectory = process.env.NODE_ENV === 'bookion'
     ? config.build.assetsSubDirectory
     : config.dev.assetsSubDirectory
 
@@ -43,7 +43,7 @@ exports.cssLoaders = function (options) {
     }
 
     // Extract CSS when that option is specified
-    // (which is the case during production build)
+    // (which is the case during bookion build)
     if (options.extract) {
       return ExtractTextPlugin.extract({
         use: loaders,

@@ -29,104 +29,88 @@ export const constantRouterMap = [
       path: 'home',
       name: 'home',
       component: () => import('@/views/home/index'),
-      meta: {title: '首页', icon: 'home'}
+      meta: {title: '首页', icon: 'home', show: true}
+    }]
+  },
+  {
+    path: '/personal',
+    component: Layout,
+    redirect: '/personal',
+    children: [{
+      path: '/personal',
+      name: 'personalData',
+      component: () => import('@/views/personal/index'),
+      meta: {title: '个人信息', icon: 'home', show: false}
     }]
   }
 ]
 
 export const asyncRouterMap = [
   {
-    path: '/pms',
+    path: '/bms',
     component: Layout,
-    redirect: '/pms/product',
-    name: 'pms',
-    meta: {title: '商品', icon: 'product'},
+    redirect: '/bms/book',
+    name: 'bms',
+    meta: {title: '图书', icon: 'book'},
     children: [{
-      path: 'product',
-      name: 'product',
-      component: () => import('@/views/pms/product/index'),
-      meta: {title: '商品列表', icon: 'product-list'}
+      path: 'book',
+      name: 'book',
+      component: () => import('@/views/bms/book/index'),
+      meta: {title: '图书列表', icon: 'book-list'}
     },
       {
-        path: 'addProduct',
-        name: 'addProduct',
-        component: () => import('@/views/pms/product/add'),
-        meta: {title: '添加商品', icon: 'product-add'}
+        path: 'addBook',
+        name: 'addBook',
+        component: () => import('@/views/bms/book/add'),
+        meta: {title: '添加图书', icon: 'book-add'}
       },
       {
-        path: 'updateProduct',
-        name: 'updateProduct',
-        component: () => import('@/views/pms/product/update'),
-        meta: {title: '修改商品', icon: 'product-add'},
+        path: 'updateBook',
+        name: 'updateBook',
+        component: () => import('@/views/bms/book/update'),
+        meta: {title: '修改图书', icon: 'book-add'},
         hidden: true
       },
       {
-        path: 'productCate',
-        name: 'productCate',
-        component: () => import('@/views/pms/productCate/index'),
-        meta: {title: '商品分类', icon: 'product-cate'}
+        path: 'bookCate',
+        name: 'bookCate',
+        component: () => import('@/views/bms/bookCate/index'),
+        meta: {title: '图书分类', icon: 'book-cate'}
       },
       {
-        path: 'addProductCate',
-        name: 'addProductCate',
-        component: () => import('@/views/pms/productCate/add'),
-        meta: {title: '添加商品分类'},
+        path: 'addBookCate',
+        name: 'addBookCate',
+        component: () => import('@/views/bms/bookCate/add'),
+        meta: {title: '添加图书分类'},
         hidden: true
       },
       {
-        path: 'updateProductCate',
-        name: 'updateProductCate',
-        component: () => import('@/views/pms/productCate/update'),
-        meta: {title: '修改商品分类'},
+        path: 'updateBookCate',
+        name: 'updateBookCate',
+        component: () => import('@/views/bms/bookCate/update'),
+        meta: {title: '修改图书分类'},
         hidden: true
       },
       {
-        path: 'productAttr',
-        name: 'productAttr',
-        component: () => import('@/views/pms/productAttr/index'),
-        meta: {title: '商品类型', icon: 'product-attr'}
+        path: 'bookPress',
+        name: 'bookPress',
+        component: () => import('@/views/bms/bookPress/index'),
+        meta: {title: '商品类型', icon: 'book-attr'}
       },
       {
-        path: 'productAttrList',
-        name: 'productAttrList',
-        component: () => import('@/views/pms/productAttr/productAttrList'),
-        meta: {title: '商品属性列表'},
-        hidden: true
-      },
-      {
-        path: 'addProductAttr',
-        name: 'addProductAttr',
-        component: () => import('@/views/pms/productAttr/addProductAttr'),
+        path: 'addBookPress',
+        name: 'addBookPress',
+        component: () => import('@/views/bms/bookPress/add'),
         meta: {title: '添加商品属性'},
         hidden: true
       },
       {
-        path: 'updateProductAttr',
-        name: 'updateProductAttr',
-        component: () => import('@/views/pms/productAttr/updateProductAttr'),
+        path: 'updateBookPress',
+        name: 'updateBookPress',
+        component: () => import('@/views/bms/bookPress/update'),
         meta: {title: '修改商品属性'},
         hidden: true
       },
-      {
-        path: 'brand',
-        name: 'brand',
-        component: () => import('@/views/pms/brand/index'),
-        meta: {title: '品牌管理', icon: 'product-brand'}
-      },
-      {
-        path: 'addBrand',
-        name: 'addBrand',
-        component: () => import('@/views/pms/brand/add'),
-        meta: {title: '添加品牌'},
-        hidden: true
-      },
-      {
-        path: 'updateBrand',
-        name: 'updateBrand',
-        component: () => import('@/views/pms/brand/update'),
-        meta: {title: '编辑品牌'},
-        hidden: true
-      }
     ]
   },
   {
@@ -140,7 +124,7 @@ export const asyncRouterMap = [
         path: 'order',
         name: 'order',
         component: () => import('@/views/oms/order/index'),
-        meta: {title: '订单列表', icon: 'product-list'}
+        meta: {title: '订单列表', icon: 'book-list'}
       },
       {
         path: 'orderDetail',
@@ -211,9 +195,9 @@ export const asyncRouterMap = [
         hidden:true
       },
       {
-        path: 'flashProductRelation',
-        name: 'flashProductRelation',
-        component: () => import('@/views/sms/flash/productRelationList'),
+        path: 'flashBookRelation',
+        name: 'flashBookRelation',
+        component: () => import('@/views/sms/flash/bookRelationList'),
         meta: {title: '秒杀商品列表'},
         hidden:true
       },
@@ -248,7 +232,7 @@ export const asyncRouterMap = [
         path: 'brand',
         name: 'homeBrand',
         component: () => import('@/views/sms/brand/index'),
-        meta: {title: '品牌推荐', icon: 'product-brand'}
+        meta: {title: '品牌推荐', icon: 'book-brand'}
       },
       {
         path: 'new',
@@ -287,6 +271,27 @@ export const asyncRouterMap = [
         component: () => import('@/views/sms/advertise/update'),
         meta: {title: '编辑广告'},
         hidden:true
+      }
+    ]
+  },
+  {
+    path: '/search',
+    component: Layout,
+    redirect: '/search/bookList',
+    name: 'search',
+    meta: {title: '查询', icon: 'order'},
+    children: [
+      {
+        path: 'bookList',
+        name: 'bookList',
+        component: () => import('@/views/search/book/index'),
+        meta: {title: '图书查询', icon: 'book-list'}
+      },
+      {
+        path: 'borrowList',
+        name: 'borrowList',
+        component: () => import('@/views/search/borrow/index'),
+        meta: {title: '借阅查询', icon: 'book-list'}
       }
     ]
   },

@@ -112,34 +112,34 @@
         style="width: 100%;margin-top: 20px" border>
         <el-table-column label="商品图片" width="120" align="center">
           <template slot-scope="scope">
-            <img :src="scope.row.productPic" style="height: 80px">
+            <img :src="scope.row.bookPic" style="height: 80px">
           </template>
         </el-table-column>
         <el-table-column label="商品名称" align="center">
           <template slot-scope="scope">
-            <p>{{scope.row.productName}}</p>
-            <p>品牌：{{scope.row.productBrand}}</p>
+            <p>{{scope.row.bookName}}</p>
+            <p>品牌：{{scope.row.bookBrand}}</p>
           </template>
         </el-table-column>
         <el-table-column label="价格/货号" width="120" align="center">
           <template slot-scope="scope">
-            <p>价格：￥{{scope.row.productPrice}}</p>
-            <p>货号：{{scope.row.productSn}}</p>
+            <p>价格：￥{{scope.row.bookPrice}}</p>
+            <p>货号：{{scope.row.bookSn}}</p>
           </template>
         </el-table-column>
         <el-table-column label="属性" width="120" align="center">
           <template slot-scope="scope">
-            {{scope.row.productAttr | formatProductAttr}}
+            {{scope.row.bookAttr | formatBookAttr}}
           </template>
         </el-table-column>
         <el-table-column label="数量" width="120" align="center">
           <template slot-scope="scope">
-            {{scope.row.productQuantity}}
+            {{scope.row.bookQuantity}}
           </template>
         </el-table-column>
         <el-table-column label="小计" width="120" align="center">
           <template slot-scope="scope">
-            ￥{{scope.row.productPrice*scope.row.productQuantity}}
+            ￥{{scope.row.bookPrice*scope.row.bookQuantity}}
           </template>
         </el-table-column>
       </el-table>
@@ -468,7 +468,7 @@
           return '已发货';
         }
       },
-      formatProductAttr(value){
+      formatBookAttr(value){
         if(value==null){
           return '';
         }else{

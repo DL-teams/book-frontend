@@ -21,7 +21,7 @@
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
           <el-form-item label="商品名称：">
-            <el-input v-model="listQuery.productName" class="input-width" placeholder="商品名称"></el-input>
+            <el-input v-model="listQuery.bookName" class="input-width" placeholder="商品名称"></el-input>
           </el-form-item>
           <el-form-item label="推荐状态：">
             <el-select v-model="listQuery.recommendStatus" placeholder="全部" clearable class="input-width">
@@ -38,10 +38,10 @@
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
-      <el-button size="mini" class="btn-add" @click="handleSelectProduct()">选择商品</el-button>
+      <el-button size="mini" class="btn-add" @click="handleSelectBook()">选择商品</el-button>
     </el-card>
     <div class="table-container">
-      <el-table ref="newProductTable"
+      <el-table ref="newBookTable"
                 :data="list"
                 style="width: 100%;"
                 @selection-change="handleSelectionChange"
@@ -51,7 +51,7 @@
           <template slot-scope="scope">{{scope.row.id}}</template>
         </el-table-column>
         <el-table-column label="商品名称" align="center">
-          <template slot-scope="scope">{{scope.row.productName}}</template>
+          <template slot-scope="scope">{{scope.row.bookName}}</template>
         </el-table-column>
         <el-table-column label="是否推荐" width="200" align="center">
           <template slot-scope="scope">
@@ -129,7 +129,7 @@
           <template slot-scope="scope">{{scope.row.name}}</template>
         </el-table-column>
         <el-table-column label="货号" width="160" align="center">
-          <template slot-scope="scope">NO.{{scope.row.productSn}}</template>
+          <template slot-scope="scope">NO.{{scope.row.bookSn}}</template>
         </el-table-column>
         <el-table-column label="价格" width="120" align="center">
           <template slot-scope="scope">￥{{scope.row.price}}</template>
@@ -170,13 +170,13 @@
   </div>
 </template>
 <script>
-  import {fetchList,updateRecommendStatus,deleteNewProduct,createNewProduct,updateNewProductSort} from '@/api/newProduct';
-  import {fetchList as fetchProductList} from '@/api/product';
+  import {fetchList,updateRecommendStatus,deleteNewBook,createNewBook,updateNewBookSort} from '@/api/newBook';
+  import {fetchList as fetchBookList} from '@/api/book';
 
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 5,
-    productName: null,
+    bookName: null,
     recommendStatus: null
   };
   const defaultRecommendOptions = [
@@ -190,7 +190,7 @@
     }
   ];
   export default {
-    name: 'newProductList',
+    name: 'newBookList',
     data() {
       return {
         listQuery: Object.assign({}, defaultListQuery),
@@ -265,7 +265,7 @@
         this.updateRecommendStatusStatus(row.id,row.recommendStatus);
       },
       handleDelete(index,row){
-        this.deleteProduct(row.id);
+        this.deleteBook(row.id);
       },
       handleBatchOperate(){
         if (this.multipleSelection < 1) {
@@ -288,7 +288,7 @@
           this.updateRecommendStatusStatus(ids,0);
         } else if(this.operateType===2){
           //删除
-          this.deleteProduct(ids);
+          this.deleteBook(ids);
         }else {
           this.$message({
             message: '请选择批量操作类型',
@@ -297,7 +297,7 @@
           });
         }
       },
-      handleSelectProduct(){
+      handleSelectBook(){
         this.selectDialogVisible=true;
         this.getDialogList();
       },
@@ -325,11 +325,11 @@
           });
           return;
         }
-        let selectProducts = [];
+        let selectBooks = [];
         for (let i = 0; i < this.dialogData.multipleSelection.length; i++) {
-          selectProducts.push({
-            productId:this.dialogData.multipleSelection[i].id,
-            productName:this.dialogData.multipleSelection[i].name
+          selectBooks.push({
+            bookId:this.dialogData.multipleSelection[i].id,
+            bookName:this.dialogData.multipleSelection[i].name
           });
         }
         this.$confirm('使用要进行添加操作?', '提示', {
@@ -337,7 +337,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          createNewProduct(selectProducts).then(response=>{
+          createNewBook(selectBooks).then(response=>{
             this.selectDialogVisible=false;
             this.dialogData.multipleSelection=[];
             this.getList();
@@ -359,7 +359,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          updateNewProductSort(this.sortDialogData).then(response=>{
+          updateNewBookSort(this.sortDialogData).then(response=>{
             this.sortDialogVisible=false;
             this.getList();
             this.$message({
@@ -401,7 +401,7 @@
           this.getList();
         });
       },
-      deleteProduct(ids){
+      deleteBook(ids){
         this.$confirm('是否要删除该推荐?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -409,7 +409,7 @@
         }).then(() => {
           let params=new URLSearchParams();
           params.append("ids",ids);
-          deleteNewProduct(params).then(response=>{
+          deleteNewBook(params).then(response=>{
             this.getList();
             this.$message({
               type: 'success',
@@ -419,7 +419,7 @@
         })
       },
       getDialogList(){
-        fetchProductList(this.dialogData.listQuery).then(response=>{
+        fetchBookList(this.dialogData.listQuery).then(response=>{
           this.dialogData.list=response.data.list;
           this.dialogData.total=response.data.total;
         })

@@ -130,8 +130,8 @@
         </el-table-column>
         <el-table-column label="相关" width="220" align="center">
           <template slot-scope="scope">
-            商品：<span class="color-main">{{scope.row.productCount}}</span>
-            评价：<span class="color-main">{{scope.row.productCommentCount}}</span>
+            商品：<span class="color-main">{{scope.row.bookCount}}</span>
+            评价：<span class="color-main">{{scope.row.bookCommentCount}}</span>
           </template>
         </el-table-column>
       </el-table>

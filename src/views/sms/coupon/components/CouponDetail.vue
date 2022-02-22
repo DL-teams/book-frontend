@@ -66,22 +66,22 @@
         <el-cascader
           clearable
           placeholder="请选择分类名称"
-          v-model="selectProductCate"
-          :options="productCateOptions">
+          v-model="selectBookCate"
+          :options="bookCateOptions">
         </el-cascader>
-        <el-button @click="handleAddProductCategoryRelation()">添加</el-button>
-        <el-table ref="productCateRelationTable"
-                  :data="coupon.productCategoryRelationList"
+        <el-button @click="handleAddBookCategoryRelation()">添加</el-button>
+        <el-table ref="bookCateRelationTable"
+                  :data="coupon.bookCategoryRelationList"
                   style="width: 100%;margin-top: 20px"
                   border>
           <el-table-column label="分类名称" align="center">
-            <template slot-scope="scope">{{scope.row.parentCategoryName}}>{{scope.row.productCategoryName}}</template>
+            <template slot-scope="scope">{{scope.row.parentCategoryName}}>{{scope.row.bookCategoryName}}</template>
           </el-table-column>
           <el-table-column label="操作" align="center" width="100">
             <template slot-scope="scope">
               <el-button size="mini"
                          type="text"
-                         @click="handleDeleteProductCateRelation(scope.$index, scope.row)">删除
+                         @click="handleDeleteBookCateRelation(scope.$index, scope.row)">删除
               </el-button>
             </template>
           </el-table-column>
@@ -89,38 +89,38 @@
       </el-form-item>
       <el-form-item v-show="coupon.useType===2">
         <el-select
-          v-model="selectProduct"
+          v-model="selectBook"
           filterable
           remote
           reserve-keyword
           placeholder="商品名称/商品货号"
-          :remote-method="searchProductMethod"
-          :loading="selectProductLoading">
+          :remote-method="searchBookMethod"
+          :loading="selectBookLoading">
           <el-option
-            v-for="item in selectProductOptions"
-            :key="item.productId"
-            :label="item.productName"
-            :value="item.productId">
-            <span style="float: left">{{ item.productName }}</span>
-            <span style="float: right; color: #8492a6; font-size: 13px">NO.{{ item.productSn }}</span>
+            v-for="item in selectBookOptions"
+            :key="item.bookId"
+            :label="item.bookName"
+            :value="item.bookId">
+            <span style="float: left">{{ item.bookName }}</span>
+            <span style="float: right; color: #8492a6; font-size: 13px">NO.{{ item.bookSn }}</span>
           </el-option>
         </el-select>
-        <el-button @click="handleAddProductRelation()">添加</el-button>
-        <el-table ref="productRelationTable"
-                  :data="coupon.productRelationList"
+        <el-button @click="handleAddBookRelation()">添加</el-button>
+        <el-table ref="bookRelationTable"
+                  :data="coupon.bookRelationList"
                   style="width: 100%;margin-top: 20px"
                   border>
           <el-table-column label="商品名称" align="center">
-            <template slot-scope="scope">{{scope.row.productName}}</template>
+            <template slot-scope="scope">{{scope.row.bookName}}</template>
           </el-table-column>
           <el-table-column label="货号" align="center"  width="120" >
-            <template slot-scope="scope">NO.{{scope.row.productSn}}</template>
+            <template slot-scope="scope">NO.{{scope.row.bookSn}}</template>
           </el-table-column>
           <el-table-column label="操作" align="center" width="100">
             <template slot-scope="scope">
               <el-button size="mini"
                          type="text"
-                         @click="handleDeleteProductRelation(scope.$index, scope.row)">删除
+                         @click="handleDeleteBookRelation(scope.$index, scope.row)">删除
               </el-button>
             </template>
           </el-table-column>
@@ -144,8 +144,8 @@
 </template>
 <script>
   import {createCoupon,getCoupon,updateCoupon} from '@/api/coupon';
-  import {fetchSimpleList as fetchProductList} from '@/api/product';
-  import {fetchListWithChildren} from '@/api/productCate'
+  import {fetchSimpleList as fetchBookList} from '@/api/book';
+  import {fetchListWithChildren} from '@/api/bookCate'
   const defaultCoupon = {
     type: 0,
     name: null,
@@ -158,8 +158,8 @@
     useType: 0,
     note: null,
     publishCount: null,
-    productRelationList: [],
-    productCategoryRelationList: []
+    bookRelationList: [],
+    bookCategoryRelationList: []
   };
   const defaultTypeOptions = [
     {
@@ -221,11 +221,11 @@
             {type: 'number',required: true,message: '只能输入正整数',trigger: 'blur'}
           ]
         },
-        selectProduct:null,
-        selectProductLoading: false,
-        selectProductOptions:[],
-        selectProductCate: null,
-        productCateOptions: []
+        selectBook:null,
+        selectBookLoading: false,
+        selectBookOptions:[],
+        selectBookCate: null,
+        bookCateOptions: []
       }
     },
     created(){
@@ -234,7 +234,7 @@
           this.coupon=response.data;
         });
       }
-      this.getProductCateList();
+      this.getBookCateList();
     },
     methods:{
       onSubmit(formName) {
@@ -281,62 +281,62 @@
         this.$refs[formName].resetFields();
         this.coupon = Object.assign({},defaultCoupon);
       },
-      searchProductMethod(query){
+      searchBookMethod(query){
         if (query !== '') {
           this.loading = true;
-          fetchProductList({keyword:query}).then(response=>{
+          fetchBookList({keyword:query}).then(response=>{
             this.loading=false;
-            let productList = response.data;
-            this.selectProductOptions = [];
-            for(let i=0;i<productList.length;i++){
-              let item = productList[i];
-              this.selectProductOptions.push({productId:item.id,productName:item.name,productSn:item.productSn});
+            let bookList = response.data;
+            this.selectBookOptions = [];
+            for(let i=0;i<bookList.length;i++){
+              let item = bookList[i];
+              this.selectBookOptions.push({bookId:item.id,bookName:item.name,bookSn:item.bookSn});
             }
           });
         } else {
-          this.selectProductOptions = [];
+          this.selectBookOptions = [];
         }
       },
-      handleAddProductRelation(){
-        if(this.selectProduct===null){
+      handleAddBookRelation(){
+        if(this.selectBook===null){
           this.$message({
             message: '请先选择商品',
             type: 'warning'
           });
           return
         }
-        this.coupon.productRelationList.push(this.getProductById(this.selectProduct));
-        this.selectProduct=null;
+        this.coupon.bookRelationList.push(this.getBookById(this.selectBook));
+        this.selectBook=null;
       },
-      handleDeleteProductRelation(index,row){
-        this.coupon.productRelationList.splice(index,1);
+      handleDeleteBookRelation(index,row){
+        this.coupon.bookRelationList.splice(index,1);
       },
-      handleAddProductCategoryRelation(){
-        if(this.selectProductCate===null||this.selectProductCate.length===0){
+      handleAddBookCategoryRelation(){
+        if(this.selectBookCate===null||this.selectBookCate.length===0){
           this.$message({
             message: '请先选择商品分类',
             type: 'warning'
           });
           return
         }
-        this.coupon.productCategoryRelationList.push(this.getProductCateByIds(this.selectProductCate));
-        this.selectProductCate=[];
+        this.coupon.bookCategoryRelationList.push(this.getBookCateByIds(this.selectBookCate));
+        this.selectBookCate=[];
       },
-      handleDeleteProductCateRelation(index,row){
-        this.coupon.productCategoryRelationList.splice(index,1);
+      handleDeleteBookCateRelation(index,row){
+        this.coupon.bookCategoryRelationList.splice(index,1);
       },
-      getProductById(id){
-        for(let i=0;i<this.selectProductOptions.length;i++){
-          if(id===this.selectProductOptions[i].productId){
-            return this.selectProductOptions[i];
+      getBookById(id){
+        for(let i=0;i<this.selectBookOptions.length;i++){
+          if(id===this.selectBookOptions[i].bookId){
+            return this.selectBookOptions[i];
           }
         }
         return null;
       },
-      getProductCateList() {
+      getBookCateList() {
         fetchListWithChildren().then(response => {
           let list = response.data;
-          this.productCateOptions = [];
+          this.bookCateOptions = [];
           for (let i = 0; i < list.length; i++) {
             let children = [];
             if (list[i].children != null && list[i].children.length > 0) {
@@ -344,24 +344,24 @@
                 children.push({label: list[i].children[j].name, value: list[i].children[j].id});
               }
             }
-            this.productCateOptions.push({label: list[i].name, value: list[i].id, children: children});
+            this.bookCateOptions.push({label: list[i].name, value: list[i].id, children: children});
           }
         });
       },
-      getProductCateByIds(ids){
+      getBookCateByIds(ids){
         let name;
         let parentName;
-        for (let i = 0; i < this.productCateOptions.length; i++) {
-          if (this.productCateOptions[i].value === ids[0]) {
-            parentName = this.productCateOptions[i].label;
-            for (let j = 0; j < this.productCateOptions[i].children.length; j++) {
-              if (this.productCateOptions[i].children[j].value === ids[1]) {
-                name = this.productCateOptions[i].children[j].label;
+        for (let i = 0; i < this.bookCateOptions.length; i++) {
+          if (this.bookCateOptions[i].value === ids[0]) {
+            parentName = this.bookCateOptions[i].label;
+            for (let j = 0; j < this.bookCateOptions[i].children.length; j++) {
+              if (this.bookCateOptions[i].children[j].value === ids[1]) {
+                name = this.bookCateOptions[i].children[j].label;
               }
             }
           }
         }
-        return {productCategoryId: ids[1], productCategoryName: name, parentCategoryName: parentName};
+        return {bookCategoryId: ids[1], bookCategoryName: name, parentCategoryName: parentName};
       }
     }
   }

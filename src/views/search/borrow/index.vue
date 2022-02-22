@@ -160,7 +160,7 @@
     }
   ];
   export default {
-    name:'returnApplyList',
+    name:'borrowList',
     data() {
       return {
         listQuery:Object.assign({},defaultListQuery),

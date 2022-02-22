@@ -22,7 +22,7 @@
           <template slot-scope="scope">{{scope.row.endTime | formatTime}}</template>
         </el-table-column>
         <el-table-column label="商品数量" align="center">
-          <template slot-scope="scope">{{scope.row.productCount}}</template>
+          <template slot-scope="scope">{{scope.row.bookCount}}</template>
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
@@ -61,7 +61,7 @@
     },
     methods: {
       handleShowRelation(index,row){
-        this.$router.push({path:'/sms/flashProductRelation',query:{
+        this.$router.push({path:'/sms/flashBookRelation',query:{
           flashPromotionId:this.$route.query.flashPromotionId, flashPromotionSessionId:row.id}})
       },
       getList() {

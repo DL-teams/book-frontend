@@ -5,30 +5,30 @@
       <el-table
         border
         class="standard-margin"
-        ref="productTable"
-        :data="productList">
+        ref="bookTable"
+        :data="bookList">
         <el-table-column label="商品图片" width="160" align="center">
           <template slot-scope="scope">
-            <img style="height:80px" :src="scope.row.productPic">
+            <img style="height:80px" :src="scope.row.bookPic">
           </template>
         </el-table-column>
         <el-table-column label="商品名称" align="center">
           <template slot-scope="scope">
-            <span class="font-small">{{scope.row.productName}}</span><br>
-            <span class="font-small">品牌：{{scope.row.productBrand}}</span>
+            <span class="font-small">{{scope.row.bookName}}</span><br>
+            <span class="font-small">品牌：{{scope.row.bookBrand}}</span>
           </template>
         </el-table-column>
         <el-table-column label="价格/货号" width="180" align="center">
           <template slot-scope="scope">
-            <span class="font-small">价格：￥{{scope.row.productRealPrice}}</span><br>
-            <span class="font-small">货号：NO.{{scope.row.productId}}</span>
+            <span class="font-small">价格：￥{{scope.row.bookRealPrice}}</span><br>
+            <span class="font-small">货号：NO.{{scope.row.bookId}}</span>
           </template>
         </el-table-column>
         <el-table-column label="属性" width="180" align="center">
-          <template slot-scope="scope">{{scope.row.productAttr}}</template>
+          <template slot-scope="scope">{{scope.row.bookAttr}}</template>
         </el-table-column>
         <el-table-column label="数量" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.productCount}}</template>
+          <template slot-scope="scope">{{scope.row.bookCount}}</template>
         </el-table-column>
         <el-table-column label="小计" width="100" align="center">
           <template slot-scope="scope">￥{{totalAmount}}</template>
@@ -212,7 +212,7 @@
     id: null,
     orderId: null,
     companyAddressId: null,
-    productId: null,
+    bookId: null,
     orderSn: null,
     createTime: null,
     memberUsername: null,
@@ -221,13 +221,13 @@
     returnPhone: null,
     status: null,
     handleTime: null,
-    productPic: null,
-    productName: null,
-    productBrand: null,
-    productAttr: null,
-    productCount: null,
-    productPrice: null,
-    productRealPrice: null,
+    bookPic: null,
+    bookName: null,
+    bookBrand: null,
+    bookAttr: null,
+    bookCount: null,
+    bookPrice: null,
+    bookRealPrice: null,
     reason: null,
     description: null,
     proofPics: null,
@@ -243,7 +243,7 @@
       return {
         id: null,
         orderReturnApply: Object.assign({},defaultOrderReturnApply),
-        productList: null,
+        bookList: null,
         proofPics: null,
         updateStatusParam: Object.assign({}, defaultUpdateStatusParam),
         companyAddressList: null
@@ -256,7 +256,7 @@
     computed: {
       totalAmount() {
         if (this.orderReturnApply != null) {
-          return this.orderReturnApply.productRealPrice * this.orderReturnApply.productCount;
+          return this.orderReturnApply.bookRealPrice * this.orderReturnApply.bookCount;
         } else {
           return 0;
         }
@@ -310,8 +310,8 @@
         getApplyDetail(this.id).then(response => {
           console.log("getDetail")
           this.orderReturnApply = response.data;
-          this.productList = [];
-          this.productList.push(this.orderReturnApply);
+          this.bookList = [];
+          this.bookList.push(this.orderReturnApply);
           if (this.orderReturnApply.proofPics != null) {
             this.proofPics = this.orderReturnApply.proofPics.split(",")
           }

@@ -19,9 +19,14 @@
         </el-button>
       </div>
       <div style="margin-top: 15px">
+
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
           <el-form-item label="图书名称：">
             <el-input style="width: 203px" v-model="listQuery.keyword" placeholder="图书名称"></el-input>
+          </el-form-item>
+
+          <el-form-item label="图书作者：">
+            <el-input style="width: 203px" v-model="listQuery.keyname" placeholder="图书作者"></el-input>
           </el-form-item>
           <el-form-item label="图书分类：">
             <el-cascader
@@ -61,26 +66,20 @@
                 v-loading="listLoading"
                 border>
         <el-table-column type="selection" width="60" align="center"></el-table-column>
-        <el-table-column label="编号" width="100" align="center">
+        <el-table-column label="图书编号" width="100" align="center">
           <template slot-scope="scope">{{ scope.row.id }}</template>
         </el-table-column>
-        <el-table-column label="图片" width="120" align="center">
+        <el-table-column label="图书条形码" width="120" align="center">
           <template slot-scope="scope"><img style="height: 80px" :src="scope.row.pic"></template>
         </el-table-column>
-        <el-table-column label="名称" align="center">
+        <el-table-column label="图书名称" align="center">
           <template slot-scope="scope">
             <p>{{ scope.row.name }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="出版社" align="center">
+        <el-table-column label="图书作者" align="center">
           <template slot-scope="scope">
-            <p>{{ scope.row.brandName }}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="价格/货号" width="120" align="center">
-          <template slot-scope="scope">
-            <p>价格：￥{{ scope.row.price }}</p>
-            <p>货号：{{ scope.row.bookSn }}</p>
+            <p>{{ scope.row.author }}</p>
           </template>
         </el-table-column>
         <el-table-column label="分类" align="center">
@@ -88,17 +87,34 @@
             <p>{{ scope.row.category }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="排序" width="100" align="center">
-          <template slot-scope="scope">{{ scope.row.sort }}</template>
-        </el-table-column>
-        <el-table-column label="SKU库存" width="100" align="center">
+        <el-table-column label="出版社" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" @click="handleShowSkuEditDialog(scope.$index, scope.row)"
-                       circle></el-button>
+            <p>{{ scope.row.brandId }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="销量" width="100" align="center">
-          <template slot-scope="scope">{{ scope.row.sale }}</template>
+        <el-table-column label="单价" width="120" align="center">
+          <template slot-scope="scope">
+            <p>价格：￥{{ scope.row.price }}</p>
+          </template>
+        </el-table-column>
+        
+        <el-table-column label="出版时间" width="100" align="center">
+          <template slot-scope="scope">{{ scope.row.time }}</template>
+        </el-table-column>
+        <el-table-column label="总册数" width="100" align="center">
+          <template slot-scope="scope">{{ scope.row.number }}</template>
+        </el-table-column>
+        <el-table-column label="备注" width="100" align="center">
+          <template slot-scope="scope">{{ scope.row.remark }}</template>
+        </el-table-column>
+        <el-table-column label="所在书架" width="100" align="center">
+          <template slot-scope="scope">{{ scope.row.bookshelf }}</template>
+        </el-table-column>
+
+        <el-table-column label="在库数量" width="100" align="center">
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit" @click="handleShowSkuEditDialog(scope.$index, scope.row)"circle></el-button>
+          </template>
         </el-table-column>
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
@@ -115,10 +131,6 @@
             <p>
               <el-button
                 size="mini"
-                @click="handleShowLog(scope.$index, scope.row)">日志
-              </el-button>
-              <el-button
-                size="mini"
                 type="danger"
                 @click="handleDelete(scope.$index, scope.row)">删除
               </el-button>
@@ -127,6 +139,7 @@
         </el-table-column>
       </el-table>
     </div>
+    
     <div class="batch-operate-container">
       <el-select
         size="small"
@@ -147,6 +160,7 @@
         确定
       </el-button>
     </div>
+
     <div class="pagination-container">
       <el-pagination
         background
@@ -240,7 +254,8 @@ const defaultListQuery = {
   verifyStatus: null,
   bookSn: null,
   bookCategoryId: null,
-  brandId: null
+  brandId: null,
+  name:''
 };
 export default {
   name: "bookList",
@@ -253,8 +268,10 @@ export default {
         bookAttributeCategoryId: null,
         stockList: [],
         bookAttr: [],
-        keyword: null
+        keyword: null,
+        name:''
       },
+     
       operates: [
         {
           label: "商品上架",
@@ -347,24 +364,18 @@ export default {
         return null;
       }
     },
+    //列表
     getList() {
       this.listLoading = true;
-      // fetchList(this.listQuery).then(response => {
-      this.listLoading = false;
-      // this.list = response.data.list;
-      // this.total = response.data.total;
-      this.list = [{
-        id: 1,
-        pic: 1,
-        name: 1,
-        brandName: 1,
-        price: 1,
-        bookSn: 1,
-        category: 1
-      }];
-      this.total = response.data.total;
-      // });
+      fetchList(this.listQuery).then(response => {
+      
+        this.listLoading = false;
+        this.list = response.data.records;
+        console.log(this.list);
+        this.total = response.data.total;
+      });
     },
+    //分类
     getBrandList() {
       fetchBrandList({pageNum: 1, pageSize: 100}).then(response => {
         this.brandOptions = [];
@@ -374,6 +385,7 @@ export default {
         }
       });
     },
+    //出版社
     getBookCateList() {
       fetchListWithChildren().then(response => {
         let list = response.data;
@@ -434,7 +446,7 @@ export default {
       });
     },
     handleSearchList() {
-      this.listQuery.pageNum = 1;
+      this.listLoading = true;
       this.getList();
     },
     handleAddBook() {

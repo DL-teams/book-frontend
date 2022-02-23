@@ -18,11 +18,13 @@
           重置
         </el-button>
       </div>
+      
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
           <el-form-item label="分类编号：">
             <el-input style="width: 203px" v-model="listQuery.code" placeholder="分类编号"></el-input>
           </el-form-item>
+
           <el-form-item label="分类名称：">
             <el-input style="width: 203px" v-model="listQuery.name" placeholder="分类名称"></el-input>
           </el-form-item>
@@ -165,6 +167,7 @@
       getList() {
         this.listLoading = true;
         fetchList(this.parentId, this.listQuery).then(response => {
+          console.log(response);
           this.listLoading = false;
           this.list = response.data.list;
           this.total = response.data.total;
